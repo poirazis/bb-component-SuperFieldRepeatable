@@ -1,0 +1,17 @@
+{
+  "type": "component",
+  "metadata": {},
+  "schema": {
+    "name": "bb-component-SuperFieldRepeatable",
+    "friendlyName": "bb-component-SuperFieldRepeatable",
+    "description": "A Repeatable Input Field for Budibase",
+    "icon": "Text",
+    "settings": [
+      {
+        "type": "text",
+        "key": "text",
+        "label": "Text"
+      }
+    ]
+  }
+}
