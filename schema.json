@@ -3,14 +3,355 @@
   "metadata": {},
   "schema": {
     "name": "bb-component-SuperFieldRepeatable",
-    "friendlyName": "bb-component-SuperFieldRepeatable",
-    "description": "A Repeatable Input Field for Budibase",
-    "icon": "Text",
+    "friendlyName": "Super Field Repeatable",
+    "description": "A multi type Input Field component for Budibase",
+    "icon": "EditInLight",
+    "context" : {
+      "type" : "static",
+      "values" : [
+        { "Value" : "object" }
+      ]
+    },
     "settings": [
       {
+        "type" : "select",
+        "label" : "Type",
+        "key" : "fieldType",
+        "showInBar" : true,
+        "options" : [
+          { "label" : "String" , "value" : "string" },
+          { "label" : "Number" , "value" : "number" },
+          { "label" : "Boolean" , "value" : "boolean" },
+          { "label" : "DateTime" , "value" : "datetime" }
+        ],
+        "defaultValue" : "string"
+      },
+      {
+        "type" : "boolean",
+        "key": "inForm",
+        "hidden" : true
+      },
+      {
+        "section" : true,
+        "name" : "Form Field Settings",
+        "dependsOn" : "inForm",
+        "resetOn" : "fieldType",
+        "settings" : [
+          {
+            "type": "field/string",
+            "label": "Field",
+            "key": "stringField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "string" }
+          },
+          {
+            "type": "field/number",
+            "label": "Field",
+            "key": "numberField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "number" }
+          },
+          {
+            "type": "field/boolean",
+            "label": "Field",
+            "key": "booleanField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "boolean" }
+          },
+          {
+            "type": "field/datetime",
+            "label": "Field",
+            "key": "datetimeField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "datetime" }
+          },
+          {
+            "type": "field/options",
+            "label": "Field",
+            "key": "optionsField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "options" }
+          },
+          {
+            "type": "field/array",
+            "label": "Field",
+            "key": "arrayField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "array" }
+          },
+          {
+            "type": "field/link",
+            "label": "Field",
+            "key": "linkField",
+            "resetOn" : "fieldType",
+            "dependsOn" : { "setting" : "fieldType", "value": "link" }
+          }
+        ]
+      },
+      {
         "type": "text",
-        "key": "text",
-        "label": "Text"
+        "label": "Label",
+        "key": "fieldLabel",
+        "supportsConditions": false
+      },
+      {
+        "type": "text",
+        "label": "Placeholder",
+        "key": "placeholder",
+        "resetOn" : "fieldType"
+      },
+      {
+        "type": "text",
+        "label": "Default value",
+        "key": "defaultValue",
+        "resetOn" : "fieldType",
+        "supportsConditions": false
+      },
+      {
+        "type": "text",
+        "label": "Help text",
+        "key": "helpText"
+      },
+      {
+        "type": "event",
+        "label": "On change",
+        "key": "onChange",
+        "context": [
+          {
+            "label": "Field Value",
+            "key": "value"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "label": "Disabled",
+        "key": "disabled",
+        "defaultValue": false
+      },
+      {
+        "type": "boolean",
+        "label": "Read only",
+        "key": "readonly",
+        "defaultValue": false,
+        "dependsOn": {
+          "setting": "disabled",
+          "value": true,
+          "invert": true
+        }
+      },
+      {
+        "type": "validation/string",
+        "label": "Validation",
+        "key": "stringValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "string" }
+      },
+      {
+        "type": "validation/number",
+        "label": "Validation",
+        "key": "numberValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "number" }
+      },
+      {
+        "type": "validation/boolean",
+        "label": "Validation",
+        "key": "booleanValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "boolean" }
+      },
+      {
+        "type": "validation/datetime",
+        "label": "Validation",
+        "key": "datetimeValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "datetime" }
+      },
+      {
+        "type": "validation/array",
+        "label": "Validation",
+        "key": "arrayValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "array" }
+      },
+      {
+        "type": "validation/array",
+        "label": "Validation",
+        "key": "optionsValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "options" }
+      },
+      {
+        "type": "validation/link",
+        "label": "Validation",
+        "key": "linkValidation",
+        "resetOn" : "fieldType",
+        "dependsOn" : { "setting" : "fieldType", "value": "link" }
+      },
+      {
+        "type": "select",
+        "label": "Alignment",
+        "key": "align",
+        "defaultValue": "left",
+        "showInBar": true,
+        "barStyle": "buttons",
+        "options": [
+          {
+            "label": "Left",
+            "value": "left",
+            "barIcon": "TextAlignLeft",
+            "barTitle": "Align left"
+          },
+          {
+            "label": "Center",
+            "value": "center",
+            "barIcon": "TextAlignCenter",
+            "barTitle": "Align center"
+          },
+          {
+            "label": "Right",
+            "value": "right",
+            "barIcon": "TextAlignRight",
+            "barTitle": "Align right"
+          },
+          {
+            "label": "Justify",
+            "value": "justify",
+            "barIcon": "TextAlignJustify",
+            "barTitle": "Justify text"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "label": "Layout",
+        "key": "span",
+        "defaultValue": 6,
+        "showInBar": true,
+        "barStyle": "buttons",
+        "options": [
+          {
+            "label": "1 column",
+            "value": 6,
+            "barIcon": "Stop",
+            "barTitle": "1 column"
+          },
+          {
+            "label": "2 columns",
+            "value": 3,
+            "barIcon": "ColumnTwoA",
+            "barTitle": "2 columns"
+          },
+          {
+            "label": "3 columns",
+            "value": 2,
+            "barIcon": "ViewColumn",
+            "barTitle": "3 columns"
+          }
+        ]
+      },
+      {
+        "type": "boolean",
+        "key" : "repeatable",
+        "label" : "Repeatable",
+        "defaultValue" : false
+      },
+      {
+        "type" : "boolean",
+        "key" : "customButtons",
+        "label" : "Custom Buttons",
+        "defaultValue": false,
+        "dependsOn" : {"setting" : "repeatable", "value" : false }
+      },
+      {
+        "section": true,
+        "name": "Repeatable",
+        "dependsOn" : "repeatable",
+        "settings": [
+
+          {
+            "type": "number",
+            "key" : "minEntries",
+            "label" : "Min Entries",
+            "defaultValue" : 2,
+            "min" : 1,
+            "max" : 30,
+            "dependsOn": "repeatable"
+          },
+          {
+            "type": "number",
+            "key" : "maxEntries",
+            "label" : "Max Entries",
+            "defaultValue" : 10,
+            "min" : 2,
+            "max" : 30,
+            "dependsOn": "repeatable"
+          },
+          {
+            "type": "boolean",
+            "key" : "reordering",
+            "label" : "Drag to Order",
+            "dependsOn": "repeatable",
+            "defaultValue" : false
+          }
+        ]
+      },
+      {
+        "section": true,
+        "name": "Front Inline Buttons",
+        "dependsOn" : "customButtons",
+        "settings": [
+          {
+            "type": "boolean",
+            "key" : "frontButtonsQuiet",
+            "label" : "Quiet",
+            "defaultValue" : false
+          },
+          {
+            "type": "select",
+            "key" : "frontButtonsGrouping",
+            "label" : "Grouping",
+            "options" : [
+              { "label" : "No Grouping", "value" : false },
+              { "label" : "Single Selection", "value" : "single" },
+              { "label" : "Multi Selection", "value" : "multi" }
+            ],
+            "defaultValue" : false
+          },
+          {
+            "type": "buttonConfiguration",
+            "key": "frontButtons"
+          }
+        ]
+      },
+      {
+        "section": true,
+        "name": "End Inline Buttons",
+        "dependsOn" : "customButtons",
+        "settings": [
+          {
+            "type": "boolean",
+            "key" : "buttonsQuiet",
+            "label" : "Quiet",
+            "defaultValue" : false
+          },
+          {
+            "type": "select",
+            "key" : "buttonsGrouping",
+            "label" : "Grouping",
+            "options" : [
+              { "label" : "No Grouping", "value" : false },
+              { "label" : "Single Selection", "value" : "single" },
+              { "label" : "Multi Selection", "value" : "multi" }
+            ],
+            "defaultValue" : false
+          },
+          {
+            "type": "buttonConfiguration",
+            "key": "buttons"
+          }
+        ]
       }
     ]
   }
